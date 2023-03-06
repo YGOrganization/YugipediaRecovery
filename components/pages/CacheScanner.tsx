@@ -123,7 +123,7 @@ export default function CacheScanner() {
 			return (
 				<>
 					<p>
-						<b>Cache scan complete!</b> You will be able to confirm uploading your data at a later step.
+						<b>Cache scan complete!</b> You can confirm uploading your data in the next step.
 					</p>
 					<button className="primary" onClick={linkToNext}>
 						Next
