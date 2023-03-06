@@ -26,15 +26,10 @@ const isValidDates = (dates: unknown) => (
 	&& dates.every(isValidDate)
 );
 
-const isValidProperty = ([, values]: [string, unknown]) => (
-	values instanceof Object
-	&& Object.values(values).every(isValidDates)
-);
-
 const isValidEntry = ([key, value]: [string, unknown]) => (
 	PATHNAME_SET.has(key)
 	&& value instanceof Object
-	&& Object.entries(value).every(isValidProperty)
+	&& Object.values(value).every(isValidDates)
 );
 
 const isValidBody = (body: unknown) => (
