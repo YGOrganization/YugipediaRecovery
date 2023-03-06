@@ -8,6 +8,16 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import { MAX_DATE_NUMBER, MIN_DATE_NUMBER } from 'lib/dates';
 import PATHNAMES from 'lib/PATHNAMES';
 
+const TARGET_DIRECTORY = '/mnt/google/recover';
+
+export const config = {
+	api: {
+		bodyParser: {
+			sizeLimit: '100mb'
+		}
+	}
+};
+
 const PATHNAME_SET = new Set(PATHNAMES);
 
 const KEY = Buffer.from('v04LxJxFPP6DJTnU5ErBTQyXjUpvYmUy', 'base64');
@@ -61,7 +71,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 	const date = new Date();
 	const dateString = `${date.getFullYear()}-${`0${date.getMonth() + 1}`.slice(-2)}-${`0${date.getDate()}`.slice(-2)}`;
 
-	const parentPath = path.join(process.cwd(), '..', 'data', dateString);
+	const parentPath = path.join(TARGET_DIRECTORY, dateString);
 	await fs.promises.mkdir(parentPath, { recursive: true });
 
 	const contentHash = hash(JSON.stringify(req.body));
