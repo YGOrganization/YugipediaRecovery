@@ -39,6 +39,11 @@ export default function CacheScanner() {
 
 	const fetchNext = useFunction(async () => {
 		const pathname = PATHNAMES[pathnameIndexRef.current];
+
+		if (pathname === undefined) {
+			return;
+		}
+
 		pathnameIndexRef.current++;
 
 		const urlString = getURLString(pathname);
