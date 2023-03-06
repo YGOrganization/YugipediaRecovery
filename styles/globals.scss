@@ -1,0 +1,141 @@
+:root {
+	font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+	line-height: 1.5;
+	font-weight: 400;
+
+	color-scheme: light dark;
+	color: #eee;
+	background-color: #111;
+
+	font-synthesis: none;
+	text-rendering: optimizeLegibility;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	-webkit-text-size-adjust: 100%;
+
+	height: 100%;
+	word-break: break-word;
+}
+
+body {
+	margin: 0;
+	padding: 20px;
+	padding-bottom: 40px;
+	box-sizing: border-box;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	min-height: 100%;
+}
+
+a {
+	color: #aae;
+}
+
+a:visited {
+	color: #eae;
+}
+
+main {
+	max-width: 500px;
+}
+
+button {
+	margin: 2px;
+	border-radius: 8px;
+	border: 1px solid transparent;
+	padding: 0.6em 1.2em;
+	font-size: 1em;
+	font-weight: 500;
+	font-family: inherit;
+	background-color: #222;
+	color: #eee;
+	cursor: pointer;
+	transition: border-color 0.25s;
+
+	&:hover {
+		border-color: #646cff;
+	}
+
+	&:focus, &:focus-visible {
+		outline: 4px auto -webkit-focus-ring-color;
+	}
+}
+
+.primary {
+	background-color: #262;
+}
+
+.progress {
+	&-container {
+		height: 50px;
+		max-width: 650px;
+		background-color: #555;
+		border: 1px solid gray;
+		border-radius: 4px;
+	}
+
+	height: 100%;
+	line-height: 50px;
+	color: white;
+	text-align: center;
+	animation: infinite 3s progress-glow;
+	word-break: normal;
+}
+
+@keyframes progress-glow {
+	0% {
+		background-color: #373;
+	}
+
+	50% {
+		background-color: #595;
+	}
+
+	100% {
+		background-color: #373;
+	}
+}
+
+kbd {
+	padding: 1px 3px;
+	display: inline-block;
+}
+
+code {
+	padding: 3px;
+	border-radius: 3px;
+	background-color: #333;
+}
+
+pre {
+	max-height: 40vh;
+	max-width: 90vw;
+	overflow: auto;
+	background-color: #222;
+}
+
+footer {
+	position: fixed;
+	bottom: 0;
+	right: 0;
+	padding: 8px;
+	background-color: #333;
+	border-radius: 15px 0 0 0;
+}
+
+.big {
+	font-size: 1.5em;
+}
+
+ol:not(#faq *) {
+	margin-bottom: 1.5em;
+}
+
+li {
+	margin: 1.5em 0;
+
+	#faq & {
+		margin: 0.75em 0;
+	}
+}
