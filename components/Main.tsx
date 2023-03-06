@@ -5,10 +5,7 @@ import PageContext, { PreviousPageContext } from 'lib/PageContext';
 import { useMemo, useRef, useState } from 'react';
 
 export default function Main() {
-	const dataRef = useRef<Data>({
-		stories: {},
-		users: {}
-	});
+	const dataRef = useRef<Data>({});
 	const data = dataRef.current;
 
 	const [Page, setPage] = useState(() => Home);
