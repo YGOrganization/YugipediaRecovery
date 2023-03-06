@@ -107,7 +107,7 @@ export default function CacheScanner() {
 						Start Cache Scan
 					</button>
 					<p>
-						You'll be able to confirm all the data entries to be sent before sending them, and everything is sent anonymously. This tool is also open-source; there's a link in the bottom-right corner, so feel free to confirm this yourself!
+						You'll be able to confirm all the data entries to be sent before anonymously sending them. This tool is also open-source; there's a link in the bottom-right corner, so feel free to confirm this yourself!
 					</p>
 					<BackButtonContainer />
 				</>
