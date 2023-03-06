@@ -6,7 +6,6 @@ import { Readable } from 'node:stream';
 import { once } from 'node:events';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { MAX_DATE_NUMBER, MIN_DATE_NUMBER } from 'lib/dates';
-import PATHNAMES from 'lib/PATHNAMES';
 
 const TARGET_DIRECTORY = '/mnt/google/recover';
 
@@ -17,8 +16,6 @@ export const config = {
 		}
 	}
 };
-
-const PATHNAME_SET = new Set(PATHNAMES);
 
 const KEY = Buffer.from('v04LxJxFPP6DJTnU5ErBTQyXjUpvYmUy', 'base64');
 
@@ -37,7 +34,7 @@ const isValidDates = (dates: unknown) => (
 );
 
 const isValidEntry = ([key, value]: [string, unknown]) => (
-	PATHNAME_SET.has(key)
+	key.startsWith('/wiki/')
 	&& value instanceof Object
 	&& Object.values(value).every(isValidDates)
 );

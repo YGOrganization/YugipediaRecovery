@@ -10,9 +10,9 @@ import useLeaveConfirmation from 'lib/useLeaveConfirmation';
 import useLinkTo from 'lib/useLinkTo';
 import { useRef, useState } from 'react';
 
-const getURLString = (pathname: string) => 'https://yugipedia.com' + pathname;
+const URL_PREFIX = 'https://yugipedia.com/wiki/';
 
-const TOTAL = PATHNAMES.length;
+const getURLString = (pathname: string) => 'https://yugipedia.com' + pathname;
 
 export default function CacheScanner() {
 	const data = useData();
@@ -82,6 +82,22 @@ export default function CacheScanner() {
 		const text = await response.text();
 
 		addData(data, dateNumber, pathname, text);
+
+		const html = new DOMParser().parseFromString(text, 'text/html');
+
+		for (const a of html.getElementsByTagName('a')) {
+			if (!a.href.startsWith(URL_PREFIX)) {
+				continue;
+			}
+
+			const aPathname = new URL(a.href).pathname;
+
+			if (PATHNAMES.includes(aPathname)) {
+				continue;
+			}
+
+			PATHNAMES.push(aPathname);
+		}
 	});
 
 	const start = useFunction(async () => {
@@ -119,7 +135,7 @@ export default function CacheScanner() {
 			);
 		}
 
-		if (done === TOTAL) {
+		if (done === PATHNAMES.length) {
 			return (
 				<>
 					<p>
@@ -132,7 +148,7 @@ export default function CacheScanner() {
 			);
 		}
 
-		const progressPercent = 100 * done / TOTAL;
+		const progressPercent = 100 * done / PATHNAMES.length;
 
 		return (
 			<>
