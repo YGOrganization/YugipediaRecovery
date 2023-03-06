@@ -139,9 +139,14 @@ export default function CacheScanner() {
 				<p>
 					Scanning Yugipedia's cache in your browser... This may take a while, so please be patient!
 				</p>
-				<p>
-					Unless you're on a mobile device, you're free to tab out while this loads (though it may load slower while tabbed out in some cases).
-				</p>
+				<ul>
+					<li>
+						<b>If you're on desktop:</b> You're free to tab out while this loads (though it may load slower while tabbed out in some cases).
+					</li>
+					<li>
+						<b>If you're on mobile:</b> Stay on this page and keep your screen awake!
+					</li>
+				</ul>
 				<div className="progress-container">
 					<div className="progress" style={{ width: `${progressPercent}%` }}>
 						{progressPercent.toFixed(2)}%
