@@ -103,7 +103,7 @@ export default function CacheScanner() {
 			return (
 				<>
 					<p>
-						You can help right here in this website without downloading anything!
+						You can help right here in this website without downloading anything! This tool works on any device or platform.
 					</p>
 					<p>
 						Click the button below to start scanning Yugipedia's cache in your browser for any lost data. This may take a while, so please be patient!
