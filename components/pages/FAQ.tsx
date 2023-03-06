@@ -22,7 +22,7 @@ export default function FAQ() {
 
 			<h2>When will the site be back?</h2>
 			<p>
-				The current situation is, the longer we wait to put the site online, the more we can recover, and we're confident a large portion of the data can be recovered! In order to recover that data most effectively, we're choosing to keep the site offline. We promise it will return as soon as possible. For more information, or if you have other questions, feel free to join <a href="https://discord.gg/XgAUBmH" target="_blank" rel="noreferrer">our Discord server</a>. Updates on our progress are shared in the #announcements channel.
+				The current situation is, the longer we wait to put the site online, the more we can recover, and we're confident a large portion of the data can be recovered! In order to recover that data most effectively, we're choosing to keep the site offline. We promise it will return as soon as possible. For more information, or if you have other questions, feel free to join <a href="https://discord.gg/e98zgyd" target="_blank" rel="noreferrer">our Discord server</a>. Updates on our progress are shared in the #announcements channel.
 			</p>
 
 			<p>
