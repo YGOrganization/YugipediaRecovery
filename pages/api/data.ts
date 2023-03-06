@@ -79,10 +79,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 	const filePath = path.join(parentPath, filename);
 
 	const bodyStream = Readable.from(
-		JSON.stringify({
-			date: Date.now(),
-			...req.body
-		})
+		JSON.stringify(req.body)
 	);
 	const brotliCompress = zlib.createBrotliCompress();
 	const writeStream = fs.createWriteStream(filePath);
