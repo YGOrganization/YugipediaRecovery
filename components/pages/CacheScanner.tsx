@@ -53,7 +53,7 @@ export default function CacheScanner() {
 		// The occasional timeout prevents the renderer from freezing.
 		let timeout;
 		const now = Date.now();
-		if (lastTimeoutRef.current < now - 10) {
+		if (lastTimeoutRef.current < now - 100) {
 			timeout = timeOut();
 			lastTimeoutRef.current = now;
 		}
