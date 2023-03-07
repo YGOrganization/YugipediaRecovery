@@ -4,7 +4,7 @@ import addData from 'lib/addData';
 import { useData } from 'lib/DataContext';
 import { MAX_DATE_NUMBER, MIN_DATE_NUMBER } from 'lib/dates';
 import PATHNAMES from 'lib/PATHNAMES';
-import timeout from 'lib/timeout';
+import timeOut from 'lib/timeOut';
 import useFunction from 'lib/useFunction';
 import useLeaveConfirmation from 'lib/useLeaveConfirmation';
 import useLinkTo from 'lib/useLinkTo';
@@ -23,6 +23,8 @@ export default function CacheScanner() {
 	useLeaveConfirmation(started);
 
 	const pathnameIndexRef = useRef(0);
+
+	const lastTimeoutRef = useRef(Date.now());
 
 	const cacheModeRef = useRef<'only-if-cached' | 'force-cache'>();
 
@@ -48,6 +50,14 @@ export default function CacheScanner() {
 
 		const urlString = getURLString(pathname);
 
+		// The occasional timeout prevents the renderer from freezing.
+		let timeout;
+		const now = Date.now();
+		if (lastTimeoutRef.current < now - 10) {
+			timeout = timeOut();
+			lastTimeoutRef.current = now;
+		}
+
 		const [response] = await Promise.all([
 			fetch(urlString, {
 				cache: cacheModeRef.current,
@@ -56,8 +66,7 @@ export default function CacheScanner() {
 					'Yugipedia-Recover': '1'
 				}
 			}).catch(() => undefined),
-			// The occasional timeout prevents the renderer from freezing.
-			pathnameIndexRef.current % 101 === 0 && timeout()
+			timeout
 		]);
 
 		setDone(done => done + 1);
