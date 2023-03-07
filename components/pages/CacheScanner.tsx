@@ -121,7 +121,7 @@ export default function CacheScanner() {
 			await setCacheMode();
 		}
 
-		for (let i = 0; i < 50; i++) {
+		for (let i = 0; i < 20; i++) {
 			runFetchLoop();
 		}
 	});
