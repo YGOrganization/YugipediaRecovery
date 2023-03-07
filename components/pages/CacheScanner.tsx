@@ -57,11 +57,10 @@ export default function CacheScanner() {
 				}
 			}).catch(() => undefined),
 			// The occasional timeout prevents the renderer from freezing.
-			done % 100 === 0 && timeout()
+			pathnameIndexRef.current % 101 === 0 && timeout()
 		]);
 
 		setDone(done => done + 1);
-		fetchNext();
 
 		if (!response?.ok) {
 			return;
@@ -100,6 +99,12 @@ export default function CacheScanner() {
 		}
 	});
 
+	const runFetchLoop = useFunction(async () => {
+		while (PATHNAMES[pathnameIndexRef.current]) {``
+			await fetchNext();
+		}
+	});
+
 	const start = useFunction(async () => {
 		setStarted(true);
 
@@ -108,7 +113,7 @@ export default function CacheScanner() {
 		}
 
 		for (let i = 0; i < 50; i++) {
-			fetchNext();
+			runFetchLoop();
 		}
 	});
 
