@@ -8,6 +8,10 @@ export default function Main() {
 	const dataRef = useRef<Data>({});
 	const data = dataRef.current;
 
+	if (typeof window !== undefined) {
+		Object.assign(window, { data });
+	}
+
 	const [Page, setPage] = useState(() => Home);
 	const pageState = useMemo(() => (
 		[Page, setPage] as const
