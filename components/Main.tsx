@@ -2,11 +2,15 @@ import Home from 'components/pages/Home';
 import Data from 'lib/Data';
 import { DataContext } from 'lib/DataContext';
 import PageContext, { PreviousPageContext } from 'lib/PageContext';
-import { useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 
 export default function Main() {
 	const dataRef = useRef<Data>({});
 	const data = dataRef.current;
+
+	useEffect(() => {
+		Object.assign(window, { data });
+	});
 
 	const [Page, setPage] = useState(() => Home);
 	const pageState = useMemo(() => (
