@@ -100,7 +100,7 @@ export default function CacheScanner() {
 	});
 
 	const runFetchLoop = useFunction(async () => {
-		while (PATHNAMES[pathnameIndexRef.current]) {``
+		while (PATHNAMES[pathnameIndexRef.current]) {
 			await fetchNext();
 		}
 	});
