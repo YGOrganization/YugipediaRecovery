@@ -1,57 +1,98 @@
+import ProgressBar from 'components/ProgressBar';
 import TheEndOfTheEnd from 'components/TheEndOfTheEnd';
 import { useData } from 'lib/DataContext';
 import useFunction from 'lib/useFunction';
 import useLeaveConfirmation from 'lib/useLeaveConfirmation';
-import { useRef, useState } from 'react';
+import { useState } from 'react';
+
+const MAX_SIZE = 8_000_000;
 
 export default function DataUpload() {
-	const [status, setStatus] = useState<'confirm' | 'uploading' | 'done'>('confirm');
+	const [status, setStatus] = useState<'confirm' | 'uploading'>('confirm');
 	const [error, setError] = useState<unknown>();
 
-	useLeaveConfirmation(status !== 'done');
+	const [done, setDone] = useState(0);
+	const [total, setTotal] = useState(1);
+
+	useLeaveConfirmation(done !== total);
 
 	const data = useData();
 
-	const triesRef = useRef(0);
-
 	const tryToFetch = useFunction(() => {
-		triesRef.current++;
+		const firstPart = { ...data };
+		const parts = [{
+			object: firstPart,
+			string: JSON.stringify(firstPart)
+		}];
 
-		fetch('/recover/api/data', {
-			method: 'POST',
-			body: JSON.stringify(data),
-			headers: {
-				'Content-Type': 'application/json'
-			}
-		}).then(response => {
-			if (!response.ok) {
-				throw Error(`${response.status} ${response.statusText}\n${response.text()}`);
-			}
+		for (let i = 0; i < parts.length; i++) {
+			const part = parts[i];
 
-			setStatus('done');
-		}).catch((error: unknown) => {
-			if (triesRef.current < 3) {
-				tryToFetch();
-				return;
-			}
+			while (part.string.length > MAX_SIZE) {
+				const keys = Object.keys(part.object);
 
+				if (keys.length === 1) {
+					break;
+				}
+
+				const newPart: typeof part = {
+					object: {},
+					string: ''
+				};
+				const keysHalfLength = keys.length / 2;
+
+				for (let j = 0; j < keysHalfLength; j++) {
+					const key = keys[j];
+
+					newPart.object[key] = part.object[key];
+					delete part.object[key];
+				}
+
+				part.string = JSON.stringify(part.object)
+				newPart.string = JSON.stringify(newPart.object);
+
+				parts.push(newPart);
+			}
+		}
+
+		setTotal(parts.length);
+
+		const upload = async () => {
+			for (const part of parts) {
+				await fetch('/recover/api/data', {
+					method: 'POST',
+					body: part.string,
+					headers: {
+						'Content-Type': 'application/json'
+					}
+				}).then(response => {
+					if (!response.ok) {
+						throw Error(`${response.status} ${response.statusText}\n${response.text()}`);
+					}
+
+					setDone(done => done + 1);
+				});
+			}
+		};
+
+		upload().catch((error: unknown) => {
 			setError(error);
 		});
 	});
 
 	const upload = useFunction(() => {
 		setStatus('uploading');
+		setDone(0);
 		tryToFetch();
 	});
 
 	const retry = useFunction(() => {
-		triesRef.current = 0;
 		setError(undefined);
 
 		upload();
 	});
 
-	if (status === 'done') {
+	if (done === total) {
 		return (
 			<main>
 				<h2>Thank you!</h2>
@@ -89,7 +130,8 @@ export default function DataUpload() {
 			return (
 				<>
 					<h1>Almost done...</h1>
-					<p>Uploading...</p>
+					<p>Uploading... This may take some time if you had a lot of data, so please be patient!</p>
+					<ProgressBar value={done / total} />
 				</>
 			);
 		}

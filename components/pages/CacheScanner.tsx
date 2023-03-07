@@ -1,5 +1,6 @@
 import BackButtonContainer from 'components/BackButtonContainer';
 import TheEnd from 'components/pages/TheEnd';
+import ProgressBar from 'components/ProgressBar';
 import addData from 'lib/addData';
 import { useData } from 'lib/DataContext';
 import { MAX_DATE_NUMBER, MIN_DATE_NUMBER } from 'lib/dates';
@@ -162,8 +163,6 @@ export default function CacheScanner() {
 			);
 		}
 
-		const progressPercent = 100 * done / PATHNAMES.length;
-
 		return (
 			<>
 				<p>
@@ -177,11 +176,7 @@ export default function CacheScanner() {
 						<b>If you're on mobile:</b> Stay on this page and keep your screen awake!
 					</li>
 				</ul>
-				<div className="progress-container">
-					<div className="progress" style={{ width: `${progressPercent}%` }}>
-						{progressPercent.toFixed(2)}%
-					</div>
-				</div>
+				<ProgressBar value={done / PATHNAMES.length} />
 			</>
 		)
 	};
